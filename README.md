@@ -79,9 +79,9 @@ print(logic_guide.generate(text))  # Output: "The value of x is ..." (the soluti
 
 ```
 
-## Examples
+<!-- ## Examples
 
-More examples are available in the [examples](https://github.com/kyegomez/LOGICGUIDE/tree/main/examples) directory.
+More examples are available in the [examples](https://github.com/kyegomez/LOGICGUIDE/tree/main/examples) directory. -->
 
 ## Contribute
 
