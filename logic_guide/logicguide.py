@@ -145,7 +145,7 @@ class LogicGuide:
         return self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 # Example usage:
-model_id="Kosmos-X"
+model_id="tiiuae/falcon-40b"
 logic_guide = LogicGuide(model_id=model_id)
 
 text = "What is your theory of everything?"
