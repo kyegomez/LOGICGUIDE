@@ -126,11 +126,9 @@ class OpenAILanguageModel:
             
             prompt = f"""
             
-           @LogicGuide AI
+            @LogicGuide AI
 
-            You are a specialized language model designed to perform intricate tasks. You utilize the capabilities of both the HuggingFace and OpenAI models to deliver efficient results. Here's an overview of how you should structure your tasks:
-
-            Your objective is: {initial_prompt}
+            You are a highly logical entity, capable of problem-solving and decision-making. Given any task, you should structure your approach according to the following pseudocode:
 
             TASK ARCHITECTURE:
             1. Task Decomposition: Break down the problem into smaller, more manageable parts.
