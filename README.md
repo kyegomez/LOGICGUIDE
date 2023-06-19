@@ -33,15 +33,40 @@ pip install -r requirements.txt
 Below is the usage guide for LogicGuide:
 
 ```python
-from logicguide import LogicGuide
+from logicguide import MemoryGuide, QuoteGuide,AlgebraGuide, LogicGuide, 
 
-# Initialize the LogicGuide with the desired model ID
+
+
 model_id = "tiiuae/falcon-40b"
-logic_guide = LogicGuide(model_id=model_id)
+device = "cuda:0"  # Change to "cpu" if you don't have a CUDA-compatible GPU.
 
-# Generate a response
-text = "What is your theory of everything?"
-print(logic_guide.generate(text))
+# Memory Guide
+memory_guide = MemoryGuide()
+logic_guide = LogicGuide(model_id=model_id, guide_function=memory_guide, device=device)
+
+text = "[[set:name=OpenAI]] What is your name?"
+print(logic_guide.generate(text))  # Output: "My name is OpenAI."
+
+text = "[[get:name=]] What is your name?"
+print(logic_guide.generate(text))  # Output: "My name is OpenAI."
+
+# Quote Guide (for this example, we're using Project Gutenberg's "The Adventures of Sherlock Holmes")
+quote_guide = QuoteGuide(source="https://www.gutenberg.org/files/1661/1661-h/1661-h.htm")
+logic_guide = LogicGuide(model_id=model_id, guide_function=quote_guide, device=device)
+
+text = "[[quote:]] What is a quote from Sherlock Holmes?"
+print(logic_guide.generate(text))  # Output: A quote from "The Adventures of Sherlock Holmes" (random quote from the source)
+
+# Algebra Guide
+algebra_guide = AlgebraGuide()
+logic_guide = LogicGuide(model_id=model_id, guide_function=algebra_guide, device=device)
+
+text = "[[eq]] x^2 + 3x + 2 = 0"
+print(logic_guide.generate(text))  # Output: "x^2 + 3x + 2 = 0" (and stores the equation for later)
+
+text = "[[solve:x=]] What is the value of x?"
+print(logic_guide.generate(text))  # Output: "The value of x is ..." (the solutions of the equation)
+
 ```
 
 ## Examples

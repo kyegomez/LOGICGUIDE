@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
   name = 'logic_guide',
   packages = find_packages(exclude=['examples']),
-  version = '1.16.9',
+  version = '0.0.1',
   license='APACHE',
   description = 'Logic Guide - HF',
   author = 'Kye Gomez',
