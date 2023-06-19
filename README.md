@@ -10,7 +10,7 @@ This implementation of LogicGuide is brought to you by Agora, we're devoted to a
 
 <!-- ![LogicGuide](https://github.com/kyegomez/LOGICGUIDE/blob/main/logicguide.jpg?raw=true) -->
 
-![Paper link is here](https://arxiv.org/pdf/2306.04031.pdf)
+[Paper link is here](https://arxiv.org/pdf/2306.04031.pdf)
 
 LogicGuide is an innovative add-on that can be plugged into any model to boost its logical reasoning capabilities by 40%. LogicGuide is designed to allow your model to harness the power of advanced logical reasoning algorithms and functions, allowing it to generate more accurate, sensible, and meaningful responses. It's as simple as plug and play!
 
