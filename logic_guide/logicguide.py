@@ -73,6 +73,15 @@ class GuideFunction:
         return self.tool_check(model_output)
 
 
+def parity_guide(binary_string):
+    count = binary_string.count('1')
+    if count % 2 == 0:
+        return 1 # belongs to the PARITY language
+    else:
+        return 0 # does not belong to the PARITY language
+
+
+
 class LogicTool:
     def check(self, text):
         #pseudocode use a complex logic system to verify the logical consistency of the text
