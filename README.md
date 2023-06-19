@@ -1,3 +1,11 @@
+# Agora
+
+This implementation is brought to you by Agora, we're devoted to advancing Humanity with meaningful open source AI Research
+
+[Agora banner](agora-banner.png)
+
+[Join our discord to help contribute to this project or 40+ other projects](https://discord.gg/qUtxnK2NMf)
+
 # LogicGuide: Boost Your Model's Logical Reasoning by 40%
 
 <!-- ![LogicGuide](https://github.com/kyegomez/LOGICGUIDE/blob/main/logicguide.jpg?raw=true) -->
