@@ -45,109 +45,7 @@ import re
 
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import torch
-
-import os
-import openai
-import time
-
-
-import logging 
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
-class OpenAILanguageModel:
-    def __init__(self, api_key, api_base="", api_model=""):
-        if api_key == "" or api_key == None:
-            api_key = os.environ.get("OPENAI_API_KEY", "")
-        if api_key != "":
-            openai.api_key = api_key
-        else:
-            raise Exception("Please provide OpenAI API key")
-
-        if api_base == ""or api_base == None:
-            api_base = os.environ.get("OPENAI_API_BASE", "")  
-        if api_base != "":
-            openai.api_base = api_base
-            print(f'Using custom api_base {api_base}')
-            
-        if api_model == "" or api_model == None:
-            api_model = os.environ.get("OPENAI_API_MODEL", "")
-        if api_model != "":
-            self.api_model = api_model
-        else:
-            self.api_model = "text-davinci-003"
-        print(f'Using api_model {self.api_model}')
-
-        self.use_chat_api = 'gpt' in self.api_model
-
-    def openai_api_call_handler(self, prompt, max_tokens, temperature, k=1, stop=None):
-        while True:
-            try:
-                if self.use_chat_api:
-                    messages = [
-                        {
-                            "role": "user",
-                            "content": prompt
-                        }
-                    ]
-                    response = openai.ChatCompletion.create(
-                        model=self.api_model,
-                        messages=messages,
-                        max_tokens=max_tokens,
-                        temperature=temperature,
-                    )
-                else:
-                    response = openai.Completion.create(
-                        engine=self.api_model,
-                        prompt=prompt,
-                        n=k,
-                        max_tokens=max_tokens,
-                        stop=stop,
-                        temperature=temperature,
-                    )
-                with open("openai.logs", 'a') as log_file:
-                    log_file.write("\n" + "-----------" + '\n' +"Prompt : "+ prompt+"\n")
-                return response
-            except openai.error.RateLimitError as e:
-                sleep_duratoin = os.environ.get("OPENAI_RATE_TIMEOUT", 30)
-                print(f'{str(e)}, sleep for {sleep_duratoin}s, set it by env OPENAI_RATE_TIMEOUT')
-                time.sleep(sleep_duratoin)
-
-    def openai_choice2text_handler(self, choice):
-        if self.use_chat_api:
-            text = choice['message']['content']
-        else:
-            text = choice.text.strip()
-        return text
-    
-    def generate_solution(self, initial_prompt):
-        try:    
-            
-            prompt = f"""
-            
-            @LogicGuide AI
-
-            You are a highly logical entity, capable of problem-solving and decision-making. Given any task, you should structure your approach according to the following pseudocode:
-
-            TASK ARCHITECTURE:
-            1. Task Decomposition: Break down the problem into smaller, more manageable parts.
-            2. Data Gathering: Identify the necessary information and data needed to solve each part.
-            3. Algorithm Design: Develop an algorithm to solve each part of the problem.
-            4. Implementation: Apply the designed algorithms to solve each part.
-            5. Integration: Combine the solutions of each part to solve the whole problem.
-            6. Verification: Check if the solution meets the problem's requirements and makes logical sense.
-
-
-            """
-
-            answer = self.openai_api_call_handler(prompt, 300, 0.5, 1)
-            answer_text = self.openai_choice2text_handler(answer.choices[0])
-            print(f'Solution: {answer_text}')
-            return answer_text
-        except Exception as e:
-            logger.error(f"Error in generate_solution: {e}")
-            return None
+from utils.openai import OpenAILanguageModel
 
 
 class UniversalGuide:
@@ -324,37 +222,7 @@ logic_guide = LogicGuide(model_id=model_id)
 #provide few shot prompt for better results
 text = """
 
-Context: 1- In a company, there are three employees: Alice, Bob, and Carol. 2- They have a group called
-"WorkTeam". 3- They have three upcoming events: a team event, a team-building event, and a product
-launch event. 4- Bob is the organizer of the team-building event. 5- Carol is a participant in the product
-launch event. 6- The team event is a conference. 7- The team-building event is yearly. 8- The team event is
-a monthly event and is a short event, while the product launch event is a long event. 9- Alice is busy during
-the team event, while Bob is free during the product launch event. 10- The team event is a private event,
-and the product launch event is a public event. 11- If a person is busy during an event, it is impermissible
-to add them as a participant. 12- If a person is free during an event, it is permissible to add them as a
-participant. 13- If an event is a long event, it is obligatory to add groups as a participant. 14- If an event has
-high priority for a person, then it is not obligatory to set a reminder for a few days before the event for that
-person. 15- If an event is a conference, it is permissible to update the event to be public. 16- If an event has
-low priority for a person, it is permissible to cancel the event. 17- If an event is short, it is impermissible
-to reschedule the event yearly. 18- If an event has low priority for a person, then it is obligatory to set
-a reminder for a few days before the event for that person. 19- If an event is private, it is obligatory to
-remove Carol as a participant. 20- If a person is a participant in an event, it is permissible to request an
-event update from them. 21- If a person is the organizer of an event, it is obligatory to change the event’s
-visibility to confidential. 22- If an event is a monthly event, it is a short event. 23- If an event is a yearly
-event, it is a long event. 24- If an event is long, then Carol has high priority for that event. 25- If an event
-is a conference, it is a public event. 26- If an event is private, it is a meeting. 27- If an event is public, it is
-a social event. 28- If a person is the organizer of an event, they are a participant in that event.
-Question: Given the rules above, is it not obligatory for Carol to set a reminder for a few days before the
-team-building event?
-
-
-Reasoning: The team-building event is a yearly event. The team-building event is a long event. Carol has
-high priority for the team-building event. If an event has high priority for a person, then it is not obligatory
-to set a reminder for a few days before the event for that person. Thus, it is not obligatory for Carol to set a
-reminder for a few days before the yearly team-building event.
-Answer (yes or no)?
-
-
+What is 24 / 4 / 3 / 1
 
 
 
