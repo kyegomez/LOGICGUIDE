@@ -94,6 +94,15 @@ We love your input! We want to make contributing to LogicGuide as easy and trans
 - [LinkedIn](http://www.linkedin.com/shareArticle?mini=true&url=https://github.com/kyegomez/LOGICGUIDE)
 - [Reddit](http://reddit.com/submit?url=https://github.com/kyegomez/LOGICGUIDE&title=LogicGuide:+Boost+Your+Model's+Logical+Reasoning)
 
+## Roadmap:
+
+* Establish formalized context meta functions that augment the base LLM response
+
+* Establish benchmark testing suite from papers
+
+* Establish more guide functions
+
+
 ## License
 
 LogicGuide is released under the MIT License. See the [LICENSE](https://github.com/kyegomez/LOGICGUIDE/blob/main/LICENSE) file for more details.
