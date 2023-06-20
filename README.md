@@ -176,29 +176,3 @@ The example usage shows how to use the `LogicGuide` class with a specific transf
 
 
 
-
-# From the provided paper abstract, it's clear that the main focus of the LogicGuide is to help language models perform externally certified reasoning using a logical backend. In this case, they are using Peano, a theorem-proving language. It provides a list of valid inferences given the background theory, assumptions, and previous inferences.
-
-The current LogicGuide class doesn't include this reasoning ability, so we need to incorporate that to make it closer to the paper. Here's the improvement plan:
-
-1. **Include a Theorem-Proving Backend**: The main backbone of this tool is the theorem-proving language, in this case, Peano. Including this in the system will allow for logical reasoning based on a finite action space.
-
-2. **Define actions**: The paper talks about 6 defined actions: object, prop, relation, axiom, goal, and infer. These need to be defined and implemented in the LogicGuide class. These actions help formalize assumptions, set a goal, and perform logical inferences.
-
-3. **Develop a Guide Function**: The guide function accepts strings with the format action:parameter. It should be capable of interpreting these actions and carrying out the relevant tasks.
-
-4. **Formalize Assumptions and Set Goals**: The LogicGuide class needs methods to formalize assumptions and set goals based on input data. This likely involves interpreting and parsing natural language input to generate formal logic.
-
-5. **Perform Logical Inferences**: The LogicGuide needs to implement an inference engine that can generate valid inferences given assumptions and goals.
-
-6. **Verification**: After the logical inferences have been made, a verification step is required to check if the solution meets the problem's requirements and makes logical sense.
-
-Critiques:
-- Including a theorem-proving backend: This is necessary according to the paper, but it might limit the generalizability of the tool. It would be beneficial to design the LogicGuide to be modular to allow for the use of other theorem-proving languages.
-- The actions are specific to the tasks in the paper. It may not be versatile enough for other types of reasoning tasks. The class should be designed in a way that new actions can be added easily.
-- The guide function's implementation might be challenging, as it requires accurately interpreting actions and parameters from input strings. Errors in this function could lead to incorrect inferences.
-- Formalizing assumptions and setting goals from natural language inputs can be error-prone due to the complexity and ambiguity of natural language. Ensuring robustness in this step will be a challenge.
-- The inference engine might be computationally expensive, depending on the complexity of the assumptions and goals.
-- The verification step, while necessary, could also introduce additional computational complexity.
-
-To achieve a balance, these critiques should be addressed during development and optimization of the LogicGuide class. Prioritizing modularity, extendability, robustness, and efficiency would be key to this process. The class should be designed and tested iteratively, discarding or modifying components based on their performance and reliability.
