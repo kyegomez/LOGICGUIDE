@@ -235,6 +235,22 @@ print(logic_guide.generate(text))
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 model_id = "tiiuae/falcon-40b"
 device = "cuda:0"  # Change to "cpu" if you don't have a CUDA-compatible GPU.
 
